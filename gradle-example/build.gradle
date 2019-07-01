@@ -33,6 +33,6 @@ allprojects {
 // skip this module (in our case, the root module):
 artifactoryPublish.skip = true
 
-task wrapper(type: Wrapper) {
+task wrapper2(type: Wrapper) {
   gradleVersion = '2.4'
 }
