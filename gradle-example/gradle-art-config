@@ -1,0 +1,10 @@
+version: 1
+type: gradle
+useWrapper: false
+resolver:
+  repo: gradle-dev
+  serverID: Default-Server
+deployer:
+  repo: gradle-dev-local
+  serverID: Default-Server
+  deployMavenDescriptors: true
