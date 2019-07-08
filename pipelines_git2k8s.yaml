@@ -28,15 +28,15 @@ pipelines:
               custom:
                 name: drydock/u18java
                 tag: master
-        gradleCommand: clean artifactoryPublish -b build.gradle
-        sourceLocation: gradle-example
-        configFileLocation: .
-        configFileName: gradle-art-config
-        forceXrayScan: false
-        autoPublishBuildInfo: true
-        inputResources:
-          - name: k8s_gitRepo_demo
-        outputResources:
-          - name: gradleBuildInfo
-        integrations:
-          - name: ArtifactoryHA
+          gradleCommand: clean artifactoryPublish -b build.gradle
+          sourceLocation: gradle-example
+          configFileLocation: .
+          configFileName: gradle-art-config
+          forceXrayScan: false
+          autoPublishBuildInfo: true
+          inputResources:
+            - name: k8s_gitRepo_demo
+          outputResources:
+            - name: gradleBuildInfo
+          integrations:
+            - name: ArtifactoryHA
