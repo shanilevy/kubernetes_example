@@ -1,0 +1,50 @@
+resources:
+  - name: backend_gitRepo_demo
+    type: GitRepo
+    configuration:
+      path: shanilevy/kubernetes_example
+      gitProvider: GitHub-Shani
+  - name: gradleBuildInfo
+      type: BuildInfo
+      configuration:
+        sourceArtifactory: ArtifactoryHA
+        buildName: pipeline-step-1-java
+        buildNumber: 1
+    - name: gradleBuildInfoPromoted
+      type: BuildInfo
+      configuration:
+        sourceArtifactory: ArtifactoryHA
+        buildName: pipeline-step-1-java
+        buildNumber: 1
+pipelines:
+  - name: demo_seven_steps_pipeline
+    steps:
+      - name: step1_pipeline_buildWithGradle
+        type: GradleBuild
+        configuration:
+          runtime:
+            type: image
+            image:
+              custom:
+                name: drydock/u18java
+                tag: master
+          gradleCommand: clean artifactoryPublish -b build.gradle
+          sourceLocation: gradle-example
+          configFileLocation: .
+          configFileName: gradle-art-config
+          forceXrayScan: false
+          autoPublishBuildInfo: true
+          inputResources:
+            - name: backend_gitRepo_demo
+          outputResources:
+            - name: gradleBuildInfo
+          integrations:
+            - name: ArtifactoryHA
+ - name: promoteJavaBuild
+    type: PromoteBuild
+    configuration:
+      targetRepository: gradle-release-local
+      inputResources:
+        - name: gradleBuildInfo
+      outputResources:
+        - name: gradleBuildInfoPromoted
