@@ -5,17 +5,17 @@ resources:
       path: shanilevy/kubernetes_example
       gitProvider: GitHub-Shani
   - name: gradleBuildInfo
-      type: BuildInfo
-      configuration:
-        sourceArtifactory: ArtifactoryHA
-        buildName: pipeline-step-1-java
-        buildNumber: 1
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: ArtifactoryHA
+      buildName: pipeline-step-1-java
+      buildNumber: 1
   - name: gradleBuildInfoPromoted
-      type: BuildInfo
-      configuration:
-        sourceArtifactory: ArtifactoryHA
-        buildName: pipeline-step-1-java
-        buildNumber: 1
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: ArtifactoryHA
+      buildName: pipeline-step-1-java
+      buildNumber: 1
 pipelines:
   - name: demo_seven_steps_pipeline
     steps:
