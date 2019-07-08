@@ -40,6 +40,13 @@ pipelines:
           - name: gradleBuildInfo
         integrations:
           - name: ArtifactoryHA
+      - name: publish
+        type: PublishBuildInfo
+        configuration:
+          inputSteps:
+            - name: step1_pipeline_buildWithGradle
+          outputResources:
+            - name: gradleBuildInfo      
       - name: promoteJavaBuild
         type: PromoteBuild
         configuration:
