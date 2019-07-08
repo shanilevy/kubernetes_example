@@ -49,3 +49,5 @@ pipelines:
           buildName: pipeline-step-1-java
           inputResources:
             - name: gradleBuildInfo
+          outputResources:
+            - name: gradleBuildInfoPromoted
