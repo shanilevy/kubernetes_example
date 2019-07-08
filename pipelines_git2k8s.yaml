@@ -40,3 +40,14 @@ pipelines:
             - name: gradleBuildInfo
           integrations:
             - name: ArtifactoryHA
+      - name: promoteJavaBuild
+        type: PromoteBuild
+        configuration:
+          targetRepository: gradle-release-local
+          includeDependencies: true
+          buildNumber: 1
+          buildName: pipeline-step-1-java
+          inputResources:
+            - name: gradleBuildInfo
+          outputResources:
+            - name: gradleBuildInfoPromoted
