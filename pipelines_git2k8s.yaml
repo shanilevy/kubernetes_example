@@ -1,5 +1,5 @@
 resources:
-  - name: backend_gitRepo_demo
+  - name: k8s_gitRepo_demo
     type: GitRepo
     configuration:
       path: shanilevy/kubernetes_example
@@ -35,7 +35,7 @@ pipelines:
         forceXrayScan: false
         autoPublishBuildInfo: true
         inputResources:
-          - name: backend_gitRepo_demo
+          - name: k8s_gitRepo_demo
         outputResources:
           - name: gradleBuildInfo
         integrations:
