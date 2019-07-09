@@ -83,7 +83,7 @@ pipelines:
             - name: ArtifactoryHA
         execution:
           onStart:
-            - export inputNpmBuildStepName="bld_frontend"
+            - export inputNpmBuildStepName="step2_pipeline_buildUIWithNpm"
       - name: promoteNpmBuild
         type: PromoteBuild
         configuration:
