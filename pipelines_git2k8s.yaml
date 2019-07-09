@@ -69,8 +69,6 @@ pipelines:
           repositoryName: npm
           inputResources:
             - name: k8s_gitRepo_demo
-          outputResources:
-            - name: NpmBuildInfo
           integrations:
             - name: ArtifactoryHA
       - name: publish_ui_pkg
@@ -79,6 +77,8 @@ pipelines:
           repositoryName: npm-dev-local
           inputSteps:
             - name: step2_pipeline_buildUIWithNpm
+          outputResources:
+            - name: NpmBuildInfo
           integrations:
             - name: ArtifactoryHA
         execution:
