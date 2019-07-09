@@ -49,7 +49,7 @@ pipelines:
             - name: gradleBuildInfo
           outputResources:
             - name: gradleBuildInfoPromoted
-      - name: step3_pipeline_buildUIWithNpm
+      - name: step2_pipeline_buildUIWithNpm
         type: NpmBuild
         configuration:
           npmArgs: --no-progress --no-audit
