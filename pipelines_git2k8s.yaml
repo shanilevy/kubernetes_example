@@ -49,3 +49,24 @@ pipelines:
             - name: gradleBuildInfo
           outputResources:
             - name: gradleBuildInfoPromoted
+      - name: bld_ui_pkg
+        type: NpmBuild
+        configuration:
+          npmArgs: --no-progress --no-audit
+          sourceLocation: create-ui-package
+          repositoryName: npm
+          inputResources:
+            - name: k8s_gitRepo_demo
+          integrations:
+            - name: ArtifactoryHA
+      - name: publish_ui_pkg
+        type: NpmPublish
+        configuration:
+          repositoryName: npm-dev-local
+          inputSteps:
+            - name: bld_ui_pkg
+          integrations:
+            - name: ArtifactoryHA
+        execution:
+          onStart:
+            - export inputNpmBuildStepName="bld_frontend"
