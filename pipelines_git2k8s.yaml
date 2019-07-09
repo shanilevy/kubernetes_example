@@ -16,6 +16,18 @@ resources:
       sourceArtifactory: ArtifactoryHA
       buildName: pipeline-step-1-java
       buildNumber: 1
+  - name: NpmBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: ArtifactoryHA
+      buildName: pipeline-step-2-npm
+      buildNumber: 1
+  - name: NpmBuildInfoPromoted
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: ArtifactoryHA
+      buildName: pipeline-step-2-npm
+      buildNumber: 1
 pipelines:
   - name: demo_seven_steps_pipeline
     steps:
@@ -57,6 +69,8 @@ pipelines:
           repositoryName: npm
           inputResources:
             - name: k8s_gitRepo_demo
+          outputResources:
+            - name: NpmBuildInfo
           integrations:
             - name: ArtifactoryHA
       - name: publish_ui_pkg
@@ -70,3 +84,12 @@ pipelines:
         execution:
           onStart:
             - export inputNpmBuildStepName="bld_frontend"
+      - name: promoteNpmBuild
+        type: PromoteBuild
+        configuration:
+          targetRepository: npm-release-local
+          includeDependencies: false
+          inputResources:
+            - name: NpmBuildInfo
+          outputResources:
+            - name: NpmBuildInfoPromoted
