@@ -44,7 +44,7 @@ pipelines:
         type: PromoteBuild
         configuration:
           targetRepository: gradle-release-local
-          includeDependencies: true
+          includeDependencies: false
           inputResources:
             - name: gradleBuildInfo
           outputResources:
