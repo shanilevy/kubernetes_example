@@ -69,6 +69,8 @@ pipelines:
           repositoryName: npm
           inputResources:
             - name: k8s_gitRepo_demo
+          outputResources:
+            - name: NpmBuildInfo
           integrations:
             - name: ArtifactoryHA
       - name: publish_ui_pkg
