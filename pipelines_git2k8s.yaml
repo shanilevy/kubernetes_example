@@ -64,7 +64,7 @@ pipelines:
         configuration:
           repositoryName: npm-dev-local
           inputSteps:
-            - name: step3_pipeline_buildUIWithNpm
+            - name: step2_pipeline_buildUIWithNpm
           integrations:
             - name: ArtifactoryHA
         execution:
