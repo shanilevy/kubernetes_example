@@ -66,11 +66,9 @@ pipelines:
         configuration:
           npmArgs: --no-progress --no-audit
           sourceLocation: create-ui-package
-          repositoryName: npm
+          repositoryName: npm-dev-local
           inputResources:
             - name: k8s_gitRepo_demo
-          outputResources:
-            - name: NpmBuildInfo
           integrations:
             - name: ArtifactoryHA
       - name: publish_ui_pkg
