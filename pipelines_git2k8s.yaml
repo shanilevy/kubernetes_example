@@ -77,13 +77,20 @@ pipelines:
           repositoryName: npm-dev-local
           inputSteps:
             - name: step2_pipeline_buildUIWithNpm
-          outputResources:
-            - name: NpmBuildInfo
           integrations:
             - name: ArtifactoryHA
         execution:
           onStart:
             - export inputNpmBuildStepName="step2_pipeline_buildUIWithNpm"
+      - name: publish_ui_pkg_build_info
+        type: PublishBuildInfo
+        configuration:
+          inputSteps:
+            - name: publish_ui_pkg
+          integrations:
+            - name: ArtifactoryHA
+          outputResources:
+            - name: NpmBuildInfo
       - name: promoteNpmBuild
         type: PromoteBuild
         configuration:
