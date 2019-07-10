@@ -79,6 +79,8 @@ pipelines:
             - name: step2_pipeline_buildUIWithNpm
           integrations:
             - name: ArtifactoryHA
+          outputResources:	
+            - name: NpmBuildInfo
         execution:
           onStart:
             - export inputNpmBuildStepName="step2_pipeline_buildUIWithNpm"
