@@ -109,7 +109,7 @@ pipelines:
             - name: k8s_gitRepo_demo
           integrations:
             - name: ArtifactoryHA
-      - name: publish_ui_pkg
+      - name: publishNpmBuild
         type: NpmPublish
         configuration:
           repositoryName: npm-dev-local
@@ -117,16 +117,16 @@ pipelines:
             - name: step2_pipeline_buildUIWithNpm
           integrations:
             - name: ArtifactoryHA
-      - name: publish_ui_pkg_build_info
+      - name: publishNpmBuildInfo
         type: PublishBuildInfo
         configuration:
           inputSteps:
-            - name: publish_ui_pkg
+            - name: publishNpmBuild
           #integrations:
            # - name: ArtifactoryHA
           outputResources:
             - name: NpmBuildInfo
-      - name: promote_ui_build
+      - name: promoteNpmBuild
         type: PromoteBuild
         configuration:
           targetRepository: npm-release-local
@@ -202,7 +202,7 @@ pipelines:
           inputSteps:
             - name: promoteFrameworkBuild
             - name: promoteJavaBuild
-            - name: promote_ui_build
+            - name: promoteNpmBuild
         execution:
           onStart:
             - echo "Preparing for work"
