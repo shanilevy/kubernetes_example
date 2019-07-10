@@ -202,6 +202,7 @@ pipelines:
           inputSteps:
             - name: promoteFrameworkBuild
             - name: promoteJavaBuild
+            - name: promote_ui_build
         execution:
           onStart:
             - echo "Preparing for work"
