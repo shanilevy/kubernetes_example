@@ -142,7 +142,7 @@ pipelines:
             - echo "Preparing for work"
             - >-
               sed -ie 's#docker.artifactory/##g'
-              $res_srcRepository_resourcePath/docker-framework/Dockerfile
+              $res_k8s_gitRepo_demo_resourcePath/docker-framework/Dockerfile
           onSuccess:
             - echo "Job well done!"
           onFailure:
