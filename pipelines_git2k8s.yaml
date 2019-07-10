@@ -35,7 +35,7 @@ resources:
       pattern: tomcat-local/(*).tar.gz
       target: './{1}.tar.gz'
       flat: true
-- name: dockerFrameworkBuildInfo
+  - name: dockerFrameworkBuildInfo
     type: BuildInfo
     configuration:
       sourceArtifactory: ArtifactoryHA
