@@ -95,6 +95,6 @@ pipelines:
           integrations:
             - name: ArtifactoryHA
           inputResources:
-            - name: publish_ui_pkg_build_info
+            - name: NpmBuildInfo
           outputResources:
             - name: NpmBuildInfoPromoted
