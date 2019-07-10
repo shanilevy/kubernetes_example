@@ -84,3 +84,12 @@ pipelines:
         execution:
           onStart:
             - export inputNpmBuildStepName="step2_pipeline_buildUIWithNpm"
+      - name: publish_ui_pkg_build_info
+        type: PublishBuildInfo
+        configuration:
+          inputSteps:
+            - name: publish_ui_pkg
+          #integrations:
+           # - name: Art1
+          outputResources:
+            - name: NpmBuildInfo
