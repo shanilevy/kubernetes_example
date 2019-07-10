@@ -54,13 +54,13 @@ resources:
       sourceArtifactory: ArtifactoryHA
       buildName: pipeline-step-3-base_image
       buildNumber: 1
-  - name: dockerAppBuildInfo
+  - name: dockerApplBuildInfo
     type: BuildInfo
     configuration:
       sourceArtifactory: ArtifactoryHA
       buildName: pipeline-step-4-app_image
       buildNumber: 1
-  - name: dockerAppBuildInfoPromoted
+  - name: dockerApplBuildInfoPromoted
     type: BuildInfo
     configuration:
       sourceArtifactory: ArtifactoryHA
@@ -233,13 +233,13 @@ pipelines:
           inputSteps:
             - name: step4_pipeline_buildDockerApp
           outputResources:
-            - name: dockerAppBuildInfo
+            - name: dockerApplBuildInfo
       - name: promoteAppBuild
         type: PromoteBuild
         configuration:
           affinityGroup: bldGroup
           targetRepository: docker-prod-local
           inputResources:
-            - name: dockerAppBuildInfo
+            - name: dockerApplBuildInfo
           outputResources:
-            - name: dockerAppBuildInfoPromoted
+            - name: dockerApplBuildInfoPromoted
