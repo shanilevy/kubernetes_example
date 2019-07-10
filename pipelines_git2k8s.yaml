@@ -85,10 +85,10 @@ pipelines:
       - name: publish_ui_pkg_build_info
         type: PublishBuildInfo
         configuration:
-          inputSteps:
-            - name: publish_ui_pkg
           integrations:
             - name: ArtifactoryHA
+          inputSteps:
+            - name: publish_ui_pkg
           outputResources:
             - name: NpmBuildInfo
       - name: promoteNpmBuild
