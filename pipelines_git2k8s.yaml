@@ -171,3 +171,62 @@ pipelines:
             - name: dockerFrameworkBuildInfo
           outputResources:
             - name: dockerFrameworkBuildInfoPromoted
+      - name: step4_pipeline_buildDockerApp
+        type: DockerBuild
+        configuration:
+          affinityGroup: bldGroup
+          dockerFileLocation: docker-app/
+          dockerFileName: Dockerfile
+          dockerImageName: docker.artifactory-cluster.soleng-us.jfrog.team/jfrog-docker-app
+          dockerImageTag: $run_number
+          integrations:
+            - name: ArtifactoryHA
+          inputResources:
+            - name: k8s_gitRepo_demo
+            - name: javaAppFileSpec
+            - name: dockerFrameworkBuildInfoPromoted
+            - name: NpmBuildInfoPromoted
+            - name: gradleBuildInfoPromoted
+          inputSteps:
+            - name: promoteFrameworkBuild
+            - name: promoteJavaBuild
+        execution:
+          onStart:
+            - echo "Preparing for work"
+            - curl $int_ArtifactoryHA_url/api/system/ping
+            - >-
+              sed -ie
+              's#docker.artifactory/#docker.artifactory-cluster.soleng-us.jfrog.team/#g'
+              $res_k8s_gitRepo_demo_resourcePath/docker-app/Dockerfile
+            - >-
+              sed -ie
+              's#docker-framework:latest#jfrog-docker-framework:'"$res_dockerFrameworkBuildInfoPromoted_buildNumber"'#g'
+              $res_k8s_gitRepo_demo_resourcePath/docker-app/Dockerfile
+          onSuccess:
+            - echo "Job well done!"
+          onFailure:
+            - echo "You Lose"
+          onComplete:
+            - echo "Leave it as you found it. Let's clean it"
+      - name: pushDockerApp
+        type: DockerPush
+        configuration:
+          affinityGroup: bldGroup
+          targetRepository: docker-dev-local
+          forceXrayScan: false
+          autoPublishBuildInfo: true
+          integrations:
+            - name: ArtifactoryHA
+          inputSteps:
+            - name: step4_pipeline_buildDockerApp
+          outputResources:
+            - name: dockerAppBuildInfo
+      - name: promoteAppBuild
+        type: PromoteBuild
+        configuration:
+          affinityGroup: bldGroup
+          targetRepository: docker-prod-local
+          inputResources:
+            - name: dockerAppBuildInfo
+          outputResources:
+            - name: dockerAppBuildInfoPromoted
