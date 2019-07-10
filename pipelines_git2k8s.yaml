@@ -85,8 +85,8 @@ pipelines:
       - name: publish_ui_pkg_build_info
         type: PublishBuildInfo
         configuration:
-          integrations:
-            - name: ArtifactoryHA
+          # integrations:
+            # - name: ArtifactoryHA
           inputSteps:
             - name: publish_ui_pkg
           outputResources:
