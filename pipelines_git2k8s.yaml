@@ -91,7 +91,7 @@ pipelines:
       - name: promote_ui_build
         type: PromoteBuild
         configuration:
-          targetRepository: npm-prod-local
+          targetRepository: npm-release-local
           integrations:
             - name: ArtifactoryHA
           inputResources:
