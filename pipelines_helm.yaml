@@ -1,0 +1,50 @@
+resources:
+  - name: helm_gitRepo_demo
+    type: GitRepo
+    configuration:
+      path: shanilevy/kubernetes_example
+      gitProvider: GitHub-Shani
+  - name: helmBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: ArtifactoryHA
+      buildName: app_helm_chart
+      buildNumber: 1
+  - name: helmPromotedAppBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: ArtifactoryHA
+      buildName: app_helm_chart
+      buildNumber: 1
+pipelines:
+  - name: helm_chart_pipeline
+    steps:
+      - name: helm_demo
+        type: Bash
+        configuration:
+          environmentVariables:
+            dockerImageName: artifactory-swampup.jfrogdev.co/docker-local/app
+            dockerImageTag: ${run_number}
+          inputResources:
+            - name: helm_gitRepo_demo
+          inputSteps:
+            - name: bld_backend_demo
+            - name: publish_frontend_demo
+          integrations:
+            - name: ArtifactoryHA
+        execution:
+          onStart:
+            - rm -rf $run_dir/workspace/jfrog
+            - retry_command jfrog rt config --url $int_ArtifactoryHA_url --user $int_ArtifactoryHA_user --apikey $int_ArtifactoryHA_apikey --interactive=false
+            - pushd $res_helm_gitRepo_demo_resourcePath
+            - echo $int_ArtifactoryHA_url
+            - echo $run_Number
+            - add_run_variable buildStepName=${step_name}
+            - add_run_variable ${step_name}_buildNumber=${run_number}
+            - add_run_variable ${step_name}_buildName=${pipeline_name}
+            - sh 'sed -i "s/0.1.1/0.1.$run_number/" ./docker-multi-app-chart/Chart.yaml'
+            
+            - docker build --pull --no-cache -t $dockerImageName:$dockerImageTag --build-arg REGISTRY=${int_art_url} .
+            - jfrog rt bce $pipeline_name $run_number
+            - jfrog rt docker-push $dockerImageName:$dockerImageTag docker-local --build-name=$pipeline_name --build-number=$run_number
+            - save_run_state /tmp/jfrog/. jfrog
