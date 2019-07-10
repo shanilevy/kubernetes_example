@@ -66,7 +66,7 @@ pipelines:
         configuration:
           npmArgs: --no-progress --no-audit
           sourceLocation: create-ui-package
-          repositoryName: npm-dev-local
+          repositoryName: npm
           inputResources:
             - name: k8s_gitRepo_demo
           integrations:
@@ -82,21 +82,3 @@ pipelines:
         execution:
           onStart:
             - export inputNpmBuildStepName="step2_pipeline_buildUIWithNpm"
-      - name: publish_ui_pkg_build_info
-        type: PublishBuildInfo
-        configuration:
-          # integrations:
-            # - name: ArtifactoryHA
-          inputSteps:
-            - name: publish_ui_pkg
-          outputResources:
-            - name: NpmBuildInfo
-      - name: promoteNpmBuild
-        type: PromoteBuild
-        configuration:
-          targetRepository: npm-release-local
-          includeDependencies: false
-          inputResources:
-            - name: NpmBuildInfo
-          outputResources:
-            - name: NpmBuildInfoPromoted
