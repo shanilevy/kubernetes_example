@@ -54,6 +54,18 @@ resources:
       sourceArtifactory: ArtifactoryHA
       buildName: pipeline-step-3-base_image
       buildNumber: 1
+  - name: dockerAppBuildInfo
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: ArtifactoryHA
+      buildName: pipeline-step-4-app_image
+      buildNumber: 1
+  - name: dockerAppBuildInfoPromoted
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: ArtifactoryHA
+      buildName: pipeline-step-4-app_image
+      buildNumber: 1
 pipelines:
   - name: demo_seven_steps_pipeline
     steps:
