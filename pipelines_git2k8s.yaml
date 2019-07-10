@@ -74,7 +74,7 @@ pipelines:
       - name: publish_ui_pkg
         type: NpmPublish
         configuration:
-          repositoryName: npm-dev-local
+          repositoryName: npm
           inputSteps:
             - name: step2_pipeline_buildUIWithNpm
           integrations:
