@@ -141,7 +141,7 @@ pipelines:
           onStart:
             - echo "Preparing for work"
             - >-
-              sed -ie's#docker.artifactory/#docker.artifactory-cluster.soleng-us.jfrog.team/#g'
+              sed -ie 's#docker.artifactory/##g'
               $res_srcRepository_resourcePath/docker-framework/Dockerfile
           onSuccess:
             - echo "Job well done!"
