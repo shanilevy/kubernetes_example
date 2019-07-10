@@ -89,7 +89,7 @@ pipelines:
         configuration:
           inputSteps:
             - name: publish_ui_pkg
-          #integrations:
-           # - name: Art1
+          integrations:
+            - name: ArtifactoryHA
           outputResources:
             - name: NpmBuildInfo
