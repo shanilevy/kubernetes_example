@@ -88,3 +88,13 @@ pipelines:
            # - name: ArtifactoryHA
           outputResources:
             - name: NpmBuildInfo
+      - name: promote_ui_build
+        type: PromoteBuild
+        configuration:
+          targetRepository: npm-prod-local
+          integrations:
+            - name: ArtifactoryHA
+          inputResources:
+            - name: publish_ui_pkg_build_info
+          outputResources:
+            - name: NpmBuildInfoPromoted
