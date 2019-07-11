@@ -275,8 +275,6 @@ pipelines:
             dryRun: false
             sign: false
             description: "some random test description"
-            integrations:
-              - name: ArtifactoryHA
             inputResources:
               - name: dockerApplBuildInfoPromoted
                 trigger: false
@@ -286,8 +284,6 @@ pipelines:
         - name: sign_demo
           type: SignReleaseBundle
           configuration:
-            integrations:
-              - name: ArtifactoryHA
             inputResources:
               - name: releaseBundle_demo
             outputResources:
@@ -300,5 +296,3 @@ pipelines:
             inputResources:
               - name: signedBundle_demo
               - name: distributionRules_demo
-            integrations:
-              - name: ArtifactoryHA
