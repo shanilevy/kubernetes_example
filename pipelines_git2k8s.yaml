@@ -265,40 +265,40 @@ pipelines:
           outputResources:
             - name: dockerApplBuildInfoPromoted
             
- - name: demo_release_pipeline
+  - name: demo_release_pipeline
     steps:
-      - name: bundle
-        type: CreateReleaseBundle
-        configuration:
-          releaseBundleName: demo-app
-          releaseBundleVersion: v1.0.$run_number
-          dryRun: false
-          sign: false
-          description: "some random test description"
-          integrations:
-            - name: ArtifactoryHA
-          inputResources:
-            - name: dockerApplBuildInfoPromoted
-              trigger: false
-          outputResources:
-            - name: releaseBundle_demo
+        - name: bundle
+          type: CreateReleaseBundle
+          configuration:
+            releaseBundleName: demo-app
+            releaseBundleVersion: v1.0.$run_number
+            dryRun: false
+            sign: false
+            description: "some random test description"
+            integrations:
+              - name: ArtifactoryHA
+            inputResources:
+              - name: dockerApplBuildInfoPromoted
+                trigger: false
+            outputResources:
+              - name: releaseBundle_demo
 
-      - name: sign_demo
-        type: SignReleaseBundle
-        configuration:
-          integrations:
-            - name: ArtifactoryHA
-          inputResources:
-            - name: releaseBundle_demo
-          outputResources:
-            - name: signedBundle_demo
+        - name: sign_demo
+          type: SignReleaseBundle
+          configuration:
+            integrations:
+              - name: ArtifactoryHA
+            inputResources:
+              - name: releaseBundle_demo
+            outputResources:
+              - name: signedBundle_demo
 
-      - name: distribute
-        type: DistributeReleaseBundle
-        configuration:
-          dryRun: false
-          inputResources:
-            - name: signedBundle_demo
-            - name: distributionRules_demo
-          integrations:
-            - name: ArtifactoryHA
+        - name: distribute
+          type: DistributeReleaseBundle
+          configuration:
+            dryRun: false
+            inputResources:
+              - name: signedBundle_demo
+              - name: distributionRules_demo
+            integrations:
+              - name: ArtifactoryHA
