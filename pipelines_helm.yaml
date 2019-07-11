@@ -28,7 +28,7 @@ pipelines:
         type: Bash
         configuration:
           environmentVariables:
-            dockerImageName: artifactory-swampup.jfrogdev.co/docker-local/app
+            dockerImageName: docker.artifactory-cluster.soleng-us.team/jfrog-docker-app
             dockerImageTag: ${run_number}
           inputResources:
             - name: helm_gitRepo_demo
@@ -45,12 +45,17 @@ pipelines:
             - pushd $res_helm_gitRepo_demo_resourcePath
             - echo $int_ArtifactoryHA_url
             - echo $run_Number
+            - add_run_variable repo="helm"
+            - add_run_variable image_tag="docker.artifactory-cluster.soleng-us.team/jfrog-docker-app:latest"
             - add_run_variable buildStepName=${step_name}
             - add_run_variable ${step_name}_buildNumber=${run_number}
             - add_run_variable ${step_name}_buildName=${pipeline_name}
             - sh 'sed -i "s/0.1.1/0.1.$run_number/" ./docker-multi-app-chart/Chart.yaml'
-            
-            - docker build --pull --no-cache -t $dockerImageName:$dockerImageTag --build-arg REGISTRY=${int_art_url} .
+            - sh "helm init --client-only"
+            - sh "sed -i 's/latest/${image_tag}/g' docker-multi-app-chart/values.yaml"
+            - sh "helm package ./docker-multi-app-chart/"
+            - jfrog rt u '*.$run_number.tgz' ${repo} --build-name=$pipeline_name --build-number=$run_number --props='release-bundle=true'
             - jfrog rt bce $pipeline_name $run_number
-            - jfrog rt docker-push $dockerImageName:$dockerImageTag docker-local --build-name=$pipeline_name --build-number=$run_number
+            - jfrog rt dl docker-prod-local/docker-multi-app/${image_tag}/manifest.json --build-name=$pipeline_name --build-number=$run_number
+            - jfrog rt bp $pipeline_name $run_number
             - save_run_state /tmp/jfrog/. jfrog
