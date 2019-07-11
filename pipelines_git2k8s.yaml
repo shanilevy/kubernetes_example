@@ -83,10 +83,10 @@ resources:
     configuration:
       sourceArtifactory: ArtifactoryHA
       serviceName: "Edge*"
-      #siteName: "*"
-      #cityName: "*"
-      #countryCodes:
-      #  - "*"
+      siteName: "*"
+      cityName: "*"
+      countryCodes:
+        - "*"
 pipelines:
   - name: demo_seven_steps_pipeline
     steps:
