@@ -66,6 +66,11 @@ resources:
       sourceArtifactory: ArtifactoryHA
       buildName: pipeline-step-4-app_image
       buildNumber: 1
+  - name: getDockerAppImage
+    type: Aql
+    configuration:
+      sourceArtifactory: ArtifactoryHA
+      query: 'items.find ({"repo":"docker-prod-local","type":"folder","$and":[{"path":{"$match":"docker-multi-app*"}},{"path":{"$nmatch":"jfrog-docker-app/latest"}}]}).include("path","created","name","repo").sort({"$desc" : ["created"]}).limit(1)'
   - name: releaseBundle_demo
     type: ReleaseBundle
     configuration:
@@ -277,6 +282,7 @@ pipelines:
             description: "some random test description"
             inputResources:
               - name: dockerApplBuildInfoPromoted
+              - name: getDockerAppImage
                 trigger: false
             outputResources:
               - name: releaseBundle_demo
