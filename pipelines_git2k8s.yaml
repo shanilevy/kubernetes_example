@@ -282,7 +282,7 @@ pipelines:
             description: "some random test description"
             inputResources:
               - name: dockerApplBuildInfoPromoted
-              - name: getDockerAppImage
+              #- name: getDockerAppImage
                 trigger: false
             outputResources:
               - name: releaseBundle_demo
