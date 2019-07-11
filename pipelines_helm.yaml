@@ -34,8 +34,8 @@ pipelines:
             - name: helm_gitRepo_demo
             - name: getDockerLatest
           inputSteps:
-            - name: bld_backend_demo
-            - name: publish_frontend_demo
+           # - name: bld_backend_demo
+           # - name: publish_frontend_demo
           integrations:
             - name: ArtifactoryHA
         execution:
