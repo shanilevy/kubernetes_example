@@ -47,8 +47,10 @@ pipelines:
             - add_run_variable buildStepName=${step_name}
             - add_run_variable ${step_name}_buildNumber=${run_number}
             - add_run_variable ${step_name}_buildName=${pipeline_name}
-            - sed -i 's/0.1.1/0.1.$run_number/' $res_helm_gitRepo_demo_resourcePath/docker-multi-app-chart/Chart.yaml
-            - sh "helm init --client-only"
+            - >-
+              sed -i 's/0.1.1/0.1.$run_number/'
+              $res_helm_gitRepo_demo_resourcePath/docker-multi-app-chart/Chart.yaml
+            - helm init --client-only
             - sed -i 's/latest/${image_tag}/g' $res_helm_gitRepo_demo_resourcePath/docker-multi-app-chart/values.yaml
             - sh "helm package ./docker-multi-app-chart/"
             - jfrog rt u '*.$run_number.tgz' ${repo} --build-name=$pipeline_name --build-number=$run_number --props='release-bundle=true'
