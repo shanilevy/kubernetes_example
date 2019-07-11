@@ -16,6 +16,11 @@ resources:
       sourceArtifactory: ArtifactoryHA
       buildName: app_helm_chart
       buildNumber: 1
+  - name: getDockerLatest
+    type: Aql
+    configuration:
+      sourceArtifactory: ArtifactoryHA
+      query: 'items.find ({"repo":"docker-prod-local","type":"folder","$and":[{"path":{"$match":"docker-multi-app*"}},{"path":{"$nmatch":"jfrog-docker-app/latest"}}]}).include("path","created","name","repo").sort({"$desc" : ["created"]}).limit(1)'
 pipelines:
   - name: helm_chart_pipeline
     steps:
@@ -27,6 +32,7 @@ pipelines:
             dockerImageTag: ${run_number}
           inputResources:
             - name: helm_gitRepo_demo
+            - name: getDockerLatest
           inputSteps:
             - name: bld_backend_demo
             - name: publish_frontend_demo
