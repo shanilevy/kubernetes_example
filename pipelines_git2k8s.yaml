@@ -66,6 +66,27 @@ resources:
       sourceArtifactory: ArtifactoryHA
       buildName: pipeline-step-4-app_image
       buildNumber: 1
+  - name: releaseBundle_demo
+    type: ReleaseBundle
+    configuration:
+      sourceArtifactory: ArtifactoryHA
+      name: demo-app
+      version: v1.0.0
+  - name: signedBundle_demo
+    type: ReleaseBundle
+    configuration:
+      sourceArtifactory: ArtifactoryHA
+      name: demo-app
+      version: v1.0.0
+  - name: distributionRules_demo
+    type: DistributionRule
+    configuration:
+      sourceArtifactory: ArtifactoryHA
+      serviceName: "Edge*"
+      #siteName: "*"
+      #cityName: "*"
+      #countryCodes:
+      #  - "*"
 pipelines:
   - name: demo_seven_steps_pipeline
     steps:
@@ -243,3 +264,41 @@ pipelines:
             - name: dockerApplBuildInfo
           outputResources:
             - name: dockerApplBuildInfoPromoted
+            
+ - name: demo_release_pipeline
+    steps:
+      - name: bundle
+        type: CreateReleaseBundle
+        configuration:
+          releaseBundleName: demo-app
+          releaseBundleVersion: v1.0.$run_number
+          dryRun: false
+          sign: false
+          description: "some random test description"
+          integrations:
+            - name: ArtifactoryHA
+          inputResources:
+            - name: dockerApplBuildInfoPromoted
+              trigger: false
+          outputResources:
+            - name: releaseBundle_demo
+
+      - name: sign_demo
+        type: SignReleaseBundle
+        configuration:
+          integrations:
+            - name: ArtifactoryHA
+          inputResources:
+            - name: releaseBundle_demo
+          outputResources:
+            - name: signedBundle_demo
+
+      - name: distribute
+        type: DistributeReleaseBundle
+        configuration:
+          dryRun: false
+          inputResources:
+            - name: signedBundle_demo
+            - name: distributionRules_demo
+          integrations:
+            - name: ArtifactoryHA
