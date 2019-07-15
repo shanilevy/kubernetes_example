@@ -70,7 +70,7 @@ resources:
     type: Aql
     configuration:
       sourceArtifactory: ArtifactoryHA
-      query: 'items.find ({"repo":"docker-prod-local","type":"folder","$and":[{"path":{"$match":"docker-multi-app*"}},{"path":{"$nmatch":"jfrog-docker-app/latest"}}]}).include("path","created","name","repo").sort({"$desc" : ["created"]}).limit(1)'
+      query: 'items.find ({"repo":"docker-prod-local","type":"folder","$and":[{"path":{"$match":"jfrog-docker-app*"}},{"path":{"$nmatch":"jfrog-docker-app/latest"}}]}).include("path","created","name","repo").sort({"$desc" : ["created"]}).limit(1)'
   - name: releaseBundle_demo
     type: ReleaseBundle
     configuration:
@@ -281,8 +281,8 @@ pipelines:
             sign: false
             description: "some random test description"
             inputResources:
-              - name: dockerApplBuildInfoPromoted
-              #- name: getDockerAppImage
+              #- name: dockerApplBuildInfoPromoted
+              - name: getDockerAppImage
                 trigger: false
             outputResources:
               - name: releaseBundle_demo
