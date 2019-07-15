@@ -180,7 +180,7 @@ pipelines:
             - echo "Preparing for work"
             - >-
               sed -ie 's#docker.artifactory/##g'
-              $res_k8s_gitRepo_demo_resourcePath/docker-framework/Dockerfile
+              $res_k8s_gitRepo_demo_resourcePath/jfrog-docker-framework/Dockerfile
           onSuccess:
             - echo "Job well done!"
           onFailure:
@@ -236,11 +236,11 @@ pipelines:
             - >-
               sed -ie
               's#docker.artifactory/#docker.artifactory-cluster.soleng-us.jfrog.team/#g'
-              $res_k8s_gitRepo_demo_resourcePath/docker-app/Dockerfile
+              $res_k8s_gitRepo_demo_resourcePath/jfrog-docker-app/Dockerfile
             - >-
               sed -ie
-              's#docker-framework:latest#jfrog-docker-framework:'"$res_dockerFrameworkBuildInfoPromoted_buildNumber"'#g'
-              $res_k8s_gitRepo_demo_resourcePath/docker-app/Dockerfile
+              's#docker-framework:latest#docker-framework:'"$res_dockerFrameworkBuildInfoPromoted_buildNumber"'#g'
+              $res_k8s_gitRepo_demo_resourcePath/jfrog-docker-app/Dockerfile
           onSuccess:
             - echo "Job well done!"
           onFailure:
