@@ -70,7 +70,7 @@ resources:
     type: Aql
     configuration:
       sourceArtifactory: ArtifactoryHA
-      query: 'items.find ({"artifact.module.build.name": "demo_seven_steps_pipeline","repo":"docker-prod-local","path":{"$match":"*19*"}})'
+      query: 'items.find({"repo": "docker-prod-local","path": "jfrog-docker-app/19"})'
   - name: releaseBundle_demo
     type: ReleaseBundle
     configuration:
